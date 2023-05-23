@@ -1,14 +1,10 @@
 import chalk from 'chalk';
-import { Collection, Client as DiscordjsClient, REST, RouteBases, Routes } from 'discord.js';
+import { Collection, Client as DiscordjsClient, REST, Routes } from 'discord.js';
 import path from 'path';
 import * as Utils from '../functions.js';
 import { Logger } from './Logger.js';
-import config from '../config.js';
 
 export class Client extends DiscordjsClient {
-    /**
-     * @param {config} clientConfig
-     */
     constructor(clientConfig = {}) {
         super({ intents: ['Guilds'] });
 
@@ -22,7 +18,7 @@ export class Client extends DiscordjsClient {
     }
 
     async registerApplicationCommands() {
-        let arrayOfCommands = [];
+        const arrayOfCommands = [];
         const route = this.config.commandDeployMode
             ? Routes.applicationCommands(this.config.clientId)
             : Routes.applicationGuildCommands(this.config.clientId, this.config.guildId);
@@ -41,8 +37,10 @@ export class Client extends DiscordjsClient {
                 .then((data) =>
                     this.logger.info(
                         chalk.redBright('Interactions'),
-                        `(${data.length}) commands registered ${this.config.commandDeployMode ? 'globally' : 'locally'}.`
-                    )
+                        `(${data.length}) commands registered ${
+                            this.config.commandDeployMode ? 'globally' : 'locally'
+                        }.`,
+                    ),
                 );
         } catch (err) {
             this.logger.error(err.stack);

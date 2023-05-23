@@ -1,4 +1,3 @@
-import chalk from 'chalk';
 import { Events } from 'discord.js';
 
 export default {
